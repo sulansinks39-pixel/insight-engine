@@ -25,9 +25,25 @@ function rebuildAbstract(index: Record<string, number[]> | null | undefined): st
   return words.filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
 }
 
+const STOPWORDS = new Set(
+  "does do did is are was were can could should would will the a an of in on for to with and or what which how why when who whom whose there their it its this that these those any than".split(
+    " ",
+  ),
+);
+
+/** Strip punctuation/wildcards and question filler so the search focuses on key terms. */
+function toSearchQuery(question: string) {
+  const words = question
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, " ")
+    .split(/\s+/)
+    .filter((w) => w && !STOPWORDS.has(w));
+  return (words.length >= 2 ? words : question.replace(/[^\p{L}\p{N}\s-]/gu, " ").split(/\s+/)).join(" ").trim();
+}
+
 export async function fetchPapers(question: string, limit = 12): Promise<Paper[]> {
   const params = new URLSearchParams({
-    search: question,
+    search: toSearchQuery(question),
     "per-page": String(limit),
     filter: "has_abstract:true,type:article|review,is_paratext:false",
     select:
