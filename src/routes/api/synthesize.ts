@@ -60,6 +60,10 @@ export const Route = createFileRoute("/api/synthesize")({
           )
           .join("\n\n");
 
+        const priorTurns = (body.history ?? [])
+          .map((t, i) => `Earlier question ${i + 1}: ${t.question}\nEarlier answer: ${t.answer}`)
+          .join("\n\n");
+
         const lovable = createOpenAI({
           baseURL: "https://ai.gateway.lovable.dev/v1",
           apiKey: key,
