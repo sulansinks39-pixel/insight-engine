@@ -16,6 +16,15 @@ const PaperSchema = z.object({
 const Body = z.object({
   question: z.string().trim().min(3).max(400),
   papers: z.array(PaperSchema).min(1).max(20),
+  history: z
+    .array(
+      z.object({
+        question: z.string().max(400),
+        answer: z.string().max(4000),
+      }),
+    )
+    .max(6)
+    .optional(),
 });
 
 const SYSTEM = `You are a scientific research assistant, similar to Consensus.app.
@@ -27,6 +36,7 @@ Rules:
 - Only cite papers from the supplied list. Never invent studies, statistics, or authors.
 - Note disagreement, limitations, and quality of evidence (sample size, study type, review vs. single study) where the abstracts allow.
 - If the papers do not answer the question, say so plainly and describe what they do cover.
+- If earlier questions and answers from this conversation are supplied, treat the new question as a follow-up: resolve pronouns and implied topics from that history, but base every claim only on the newly supplied papers.
 - Keep it under roughly 250 words. Use short paragraphs and an optional short bullet list. No headings, no closing summary of sources.`;
 
 export const Route = createFileRoute("/api/synthesize")({
@@ -50,6 +60,10 @@ export const Route = createFileRoute("/api/synthesize")({
           )
           .join("\n\n");
 
+        const priorTurns = (body.history ?? [])
+          .map((t, i) => `Earlier question ${i + 1}: ${t.question}\nEarlier answer: ${t.answer}`)
+          .join("\n\n");
+
         const lovable = createOpenAI({
           baseURL: "https://ai.gateway.lovable.dev/v1",
           apiKey: key,
@@ -60,7 +74,7 @@ export const Route = createFileRoute("/api/synthesize")({
           const result = streamText({
             model: lovable.responses("openai/gpt-6-astra"),
             system: SYSTEM,
-            prompt: `Question: ${body.question}\n\nResearch papers:\n\n${evidence}`,
+            prompt: `${priorTurns ? `Conversation so far:\n\n${priorTurns}\n\n` : ""}Question: ${body.question}\n\nResearch papers:\n\n${evidence}`,
             abortSignal: request.signal,
             providerOptions: {
               openai: {
