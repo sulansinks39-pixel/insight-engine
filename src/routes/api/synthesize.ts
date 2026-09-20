@@ -36,6 +36,7 @@ Rules:
 - Only cite papers from the supplied list. Never invent studies, statistics, or authors.
 - Note disagreement, limitations, and quality of evidence (sample size, study type, review vs. single study) where the abstracts allow.
 - If the papers do not answer the question, say so plainly and describe what they do cover.
+- If earlier questions and answers from this conversation are supplied, treat the new question as a follow-up: resolve pronouns and implied topics from that history, but base every claim only on the newly supplied papers.
 - Keep it under roughly 250 words. Use short paragraphs and an optional short bullet list. No headings, no closing summary of sources.`;
 
 export const Route = createFileRoute("/api/synthesize")({
