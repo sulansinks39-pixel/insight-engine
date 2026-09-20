@@ -74,7 +74,7 @@ export const Route = createFileRoute("/api/synthesize")({
           const result = streamText({
             model: lovable.responses("openai/gpt-6-astra"),
             system: SYSTEM,
-            prompt: `Question: ${body.question}\n\nResearch papers:\n\n${evidence}`,
+            prompt: `${priorTurns ? `Conversation so far:\n\n${priorTurns}\n\n` : ""}Question: ${body.question}\n\nResearch papers:\n\n${evidence}`,
             abortSignal: request.signal,
             providerOptions: {
               openai: {
