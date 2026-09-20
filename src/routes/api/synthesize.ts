@@ -16,6 +16,15 @@ const PaperSchema = z.object({
 const Body = z.object({
   question: z.string().trim().min(3).max(400),
   papers: z.array(PaperSchema).min(1).max(20),
+  history: z
+    .array(
+      z.object({
+        question: z.string().max(400),
+        answer: z.string().max(4000),
+      }),
+    )
+    .max(6)
+    .optional(),
 });
 
 const SYSTEM = `You are a scientific research assistant, similar to Consensus.app.
