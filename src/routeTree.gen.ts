@@ -10,15 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ApiSynthesizeRouteImport } from './routes/api/synthesize'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppResultsRouteImport } from './routes/app.results.'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -36,6 +45,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -46,53 +60,98 @@ const ApiSynthesizeRoute = ApiSynthesizeRouteImport.update({
   path: '/api/synthesize',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResultsRoute = AppResultsRouteImport.update({
+  id: '/results/',
+  path: '/results/',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
   '/privacy': typeof PrivacyRoute
+  '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/': typeof AppIndexRoute
+  '/app/results/': typeof AppResultsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
   '/privacy': typeof PrivacyRoute
+  '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app': typeof AppIndexRoute
+  '/app/results': typeof AppResultsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
   '/privacy': typeof PrivacyRoute
+  '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/': typeof AppIndexRoute
+  '/app/results/': typeof AppResultsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/cookies' | '/privacy' | '/terms' | '/api/synthesize'
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/cookies'
+    | '/privacy'
+    | '/sign-in'
+    | '/terms'
+    | '/api/synthesize'
+    | '/app/'
+    | '/app/results/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/cookies' | '/privacy' | '/terms' | '/api/synthesize'
-  id:
-    | '__root__'
+  to:
     | '/'
     | '/auth'
     | '/cookies'
     | '/privacy'
+    | '/sign-in'
     | '/terms'
     | '/api/synthesize'
+    | '/app'
+    | '/app/results'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/cookies'
+    | '/privacy'
+    | '/sign-in'
+    | '/terms'
+    | '/api/synthesize'
+    | '/app/'
+    | '/app/results/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
   CookiesRoute: typeof CookiesRoute
   PrivacyRoute: typeof PrivacyRoute
+  SignInRoute: typeof SignInRoute
   TermsRoute: typeof TermsRoute
   ApiSynthesizeRoute: typeof ApiSynthesizeRoute
 }
@@ -104,6 +163,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -127,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -141,14 +214,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSynthesizeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/results/': {
+      id: '/app/results/'
+      path: '/results'
+      fullPath: '/app/results/'
+      preLoaderRoute: typeof AppResultsRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
+  AppResultsRoute: typeof AppResultsRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
+  AppResultsRoute: AppResultsRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
   CookiesRoute: CookiesRoute,
   PrivacyRoute: PrivacyRoute,
+  SignInRoute: SignInRoute,
   TermsRoute: TermsRoute,
   ApiSynthesizeRoute: ApiSynthesizeRoute,
 }

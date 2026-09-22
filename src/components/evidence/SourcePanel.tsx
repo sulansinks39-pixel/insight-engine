@@ -1,0 +1,13 @@
+import { ExternalLink, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
+import type { EvidenceLink, ResearchPaper } from "@/lib/evidence-model";
+function Content({ evidence, paper, onClose }: { evidence: EvidenceLink; paper: ResearchPaper; onClose: () => void }) {
+  const passage = paper.passages.find((p) => p.id === evidence.passageId);
+  const n = Number(evidence.id.replace(/\D/g, "")) || 1;
+  return <div className="flex h-full flex-col"><div className="flex items-start justify-between border-b pb-5"><div><p className="meta-label text-primary">Source {String(n).padStart(2, "0")}</p><h2 className="mt-2 font-serif text-2xl leading-tight">{paper.title}</h2><p className="mt-2 text-sm text-muted-foreground">{paper.journal} · {paper.year ?? "n.d."} · {paper.studyType}</p></div><Button variant="ghost" size="icon" onClick={onClose} className="hidden lg:inline-flex" aria-label="Close source"><X /></Button></div><div className="flex-1 space-y-7 overflow-y-auto py-6"><div><p className="meta-label">Supporting passage</p><blockquote className="mt-3 border-l-2 border-primary bg-secondary px-4 py-4 text-sm leading-7">“{passage?.text ?? paper.abstract}”</blockquote></div><div><p className="meta-label">Why this source?</p><p className="mt-2 text-sm leading-6 text-muted-foreground">{evidence.reason}</p></div>{paper.participants && <div><p className="meta-label">Study details</p><p className="mt-2 text-sm">{paper.participants}{paper.studiesIncluded ? ` · ${paper.studiesIncluded} studies` : ""}</p></div>}</div><Button asChild className="w-full"><a href={paper.url} target="_blank" rel="noreferrer noopener">Open paper <ExternalLink /></a></Button></div>;
+}
+export function SourcePanel({ open, evidence, paper, onClose }: { open: boolean; evidence: EvidenceLink | null; paper: ResearchPaper | null; onClose: () => void }) {
+  if (!evidence || !paper) return null;
+  return <><aside className={`fixed inset-y-15 right-0 z-30 hidden w-[390px] border-l bg-background p-6 shadow-sm transition-transform lg:block ${open ? "translate-x-0" : "translate-x-full"}`}><Content evidence={evidence} paper={paper} onClose={onClose} /></aside><Sheet open={open} onOpenChange={(v) => !v && onClose()}><SheetContent side="bottom" className="max-h-[85vh] rounded-t-lg p-6 lg:hidden"><SheetTitle className="sr-only">Source details</SheetTitle><SheetDescription className="sr-only">Supporting source for this claim</SheetDescription><Content evidence={evidence} paper={paper} onClose={onClose} /></SheetContent></Sheet></>;
+}
