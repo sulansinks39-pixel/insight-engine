@@ -27,8 +27,8 @@ import { Route as AppHistoryRouteImport } from './routes/app.history'
 import { Route as AppLibraryRouteImport } from './routes/app.library'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppTopicsRouteImport } from './routes/app.topics'
-import { Route as AppPaperRouteImport } from './routes/app.paper.'
-import { Route as AppResultsRouteImport } from './routes/app.results.'
+import { Route as AppPaperIdRouteImport } from './routes/app.paper.$id'
+import { Route as AppResultsIdRouteImport } from './routes/app.results.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -120,14 +120,14 @@ const AppTopicsRoute = AppTopicsRouteImport.update({
   path: '/topics',
   getParentRoute: () => AppRoute,
 } as any)
-const AppPaperRoute = AppPaperRouteImport.update({
-  id: '/paper/',
-  path: '/paper/',
+const AppPaperIdRoute = AppPaperIdRouteImport.update({
+  id: '/paper/$id',
+  path: '/paper/$id',
   getParentRoute: () => AppRoute,
 } as any)
-const AppResultsRoute = AppResultsRouteImport.update({
-  id: '/results/',
-  path: '/results/',
+const AppResultsIdRoute = AppResultsIdRouteImport.update({
+  id: '/results/$id',
+  path: '/results/$id',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -150,8 +150,8 @@ export interface FileRoutesByFullPath {
   '/app/settings': typeof AppSettingsRoute
   '/app/topics': typeof AppTopicsRoute
   '/app/': typeof AppIndexRoute
-  '/app/paper/': typeof AppPaperRoute
-  '/app/results/': typeof AppResultsRoute
+  '/app/paper/$id': typeof AppPaperIdRoute
+  '/app/results/$id': typeof AppResultsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -171,8 +171,8 @@ export interface FileRoutesByTo {
   '/app/settings': typeof AppSettingsRoute
   '/app/topics': typeof AppTopicsRoute
   '/app': typeof AppIndexRoute
-  '/app/paper': typeof AppPaperRoute
-  '/app/results': typeof AppResultsRoute
+  '/app/paper/$id': typeof AppPaperIdRoute
+  '/app/results/$id': typeof AppResultsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -194,8 +194,8 @@ export interface FileRoutesById {
   '/app/settings': typeof AppSettingsRoute
   '/app/topics': typeof AppTopicsRoute
   '/app/': typeof AppIndexRoute
-  '/app/paper/': typeof AppPaperRoute
-  '/app/results/': typeof AppResultsRoute
+  '/app/paper/$id': typeof AppPaperIdRoute
+  '/app/results/$id': typeof AppResultsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -218,8 +218,8 @@ export interface FileRouteTypes {
     | '/app/settings'
     | '/app/topics'
     | '/app/'
-    | '/app/paper/'
-    | '/app/results/'
+    | '/app/paper/$id'
+    | '/app/results/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -239,8 +239,8 @@ export interface FileRouteTypes {
     | '/app/settings'
     | '/app/topics'
     | '/app'
-    | '/app/paper'
-    | '/app/results'
+    | '/app/paper/$id'
+    | '/app/results/$id'
   id:
     | '__root__'
     | '/'
@@ -261,8 +261,8 @@ export interface FileRouteTypes {
     | '/app/settings'
     | '/app/topics'
     | '/app/'
-    | '/app/paper/'
-    | '/app/results/'
+    | '/app/paper/$id'
+    | '/app/results/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -408,18 +408,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTopicsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/paper/': {
-      id: '/app/paper/'
-      path: '/paper'
-      fullPath: '/app/paper/'
-      preLoaderRoute: typeof AppPaperRouteImport
+    '/app/paper/$id': {
+      id: '/app/paper/$id'
+      path: '/paper/$id'
+      fullPath: '/app/paper/$id'
+      preLoaderRoute: typeof AppPaperIdRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/results/': {
-      id: '/app/results/'
-      path: '/results'
-      fullPath: '/app/results/'
-      preLoaderRoute: typeof AppResultsRouteImport
+    '/app/results/$id': {
+      id: '/app/results/$id'
+      path: '/results/$id'
+      fullPath: '/app/results/$id'
+      preLoaderRoute: typeof AppResultsIdRouteImport
       parentRoute: typeof AppRoute
     }
   }
@@ -432,8 +432,8 @@ interface AppRouteChildren {
   AppSettingsRoute: typeof AppSettingsRoute
   AppTopicsRoute: typeof AppTopicsRoute
   AppIndexRoute: typeof AppIndexRoute
-  AppPaperRoute: typeof AppPaperRoute
-  AppResultsRoute: typeof AppResultsRoute
+  AppPaperIdRoute: typeof AppPaperIdRoute
+  AppResultsIdRoute: typeof AppResultsIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -443,8 +443,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppSettingsRoute: AppSettingsRoute,
   AppTopicsRoute: AppTopicsRoute,
   AppIndexRoute: AppIndexRoute,
-  AppPaperRoute: AppPaperRoute,
-  AppResultsRoute: AppResultsRoute,
+  AppPaperIdRoute: AppPaperIdRoute,
+  AppResultsIdRoute: AppResultsIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
