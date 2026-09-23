@@ -18,6 +18,10 @@ import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ApiSynthesizeRouteImport } from './routes/api/synthesize'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppHistoryRouteImport } from './routes/app.history'
+import { Route as AppLibraryRouteImport } from './routes/app.library'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppPaperRouteImport } from './routes/app.paper.'
 import { Route as AppResultsRouteImport } from './routes/app.results.'
 
 const IndexRoute = IndexRouteImport.update({
@@ -65,6 +69,26 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppHistoryRoute = AppHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLibraryRoute = AppLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaperRoute = AppPaperRouteImport.update({
+  id: '/paper/',
+  path: '/paper/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppResultsRoute = AppResultsRouteImport.update({
   id: '/results/',
   path: '/results/',
@@ -80,7 +104,11 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/history': typeof AppHistoryRoute
+  '/app/library': typeof AppLibraryRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/': typeof AppIndexRoute
+  '/app/paper/': typeof AppPaperRoute
   '/app/results/': typeof AppResultsRoute
 }
 export interface FileRoutesByTo {
@@ -91,7 +119,11 @@ export interface FileRoutesByTo {
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/history': typeof AppHistoryRoute
+  '/app/library': typeof AppLibraryRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app': typeof AppIndexRoute
+  '/app/paper': typeof AppPaperRoute
   '/app/results': typeof AppResultsRoute
 }
 export interface FileRoutesById {
@@ -104,7 +136,11 @@ export interface FileRoutesById {
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/history': typeof AppHistoryRoute
+  '/app/library': typeof AppLibraryRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/': typeof AppIndexRoute
+  '/app/paper/': typeof AppPaperRoute
   '/app/results/': typeof AppResultsRoute
 }
 export interface FileRouteTypes {
@@ -118,7 +154,11 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/terms'
     | '/api/synthesize'
+    | '/app/history'
+    | '/app/library'
+    | '/app/settings'
     | '/app/'
+    | '/app/paper/'
     | '/app/results/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -129,7 +169,11 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/terms'
     | '/api/synthesize'
+    | '/app/history'
+    | '/app/library'
+    | '/app/settings'
     | '/app'
+    | '/app/paper'
     | '/app/results'
   id:
     | '__root__'
@@ -141,7 +185,11 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/terms'
     | '/api/synthesize'
+    | '/app/history'
+    | '/app/library'
+    | '/app/settings'
     | '/app/'
+    | '/app/paper/'
     | '/app/results/'
   fileRoutesById: FileRoutesById
 }
@@ -221,6 +269,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/history': {
+      id: '/app/history'
+      path: '/history'
+      fullPath: '/app/history'
+      preLoaderRoute: typeof AppHistoryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/library': {
+      id: '/app/library'
+      path: '/library'
+      fullPath: '/app/library'
+      preLoaderRoute: typeof AppLibraryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/paper/': {
+      id: '/app/paper/'
+      path: '/paper'
+      fullPath: '/app/paper/'
+      preLoaderRoute: typeof AppPaperRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/results/': {
       id: '/app/results/'
       path: '/results'
@@ -232,12 +308,20 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppHistoryRoute: typeof AppHistoryRoute
+  AppLibraryRoute: typeof AppLibraryRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppPaperRoute: typeof AppPaperRoute
   AppResultsRoute: typeof AppResultsRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppHistoryRoute: AppHistoryRoute,
+  AppLibraryRoute: AppLibraryRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppIndexRoute: AppIndexRoute,
+  AppPaperRoute: AppPaperRoute,
   AppResultsRoute: AppResultsRoute,
 }
 
