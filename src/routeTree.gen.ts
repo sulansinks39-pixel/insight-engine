@@ -10,23 +10,34 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as TopicsRouteImport } from './routes/topics'
 import { Route as ApiSynthesizeRouteImport } from './routes/api/synthesize'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppHelpRouteImport } from './routes/app.help'
 import { Route as AppHistoryRouteImport } from './routes/app.history'
 import { Route as AppLibraryRouteImport } from './routes/app.library'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppTopicsRouteImport } from './routes/app.topics'
 import { Route as AppPaperRouteImport } from './routes/app.paper.'
 import { Route as AppResultsRouteImport } from './routes/app.results.'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
@@ -44,6 +55,16 @@ const CookiesRoute = CookiesRouteImport.update({
   path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MethodologyRoute = MethodologyRouteImport.update({
+  id: '/methodology',
+  path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -59,6 +80,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TopicsRoute = TopicsRouteImport.update({
+  id: '/topics',
+  path: '/topics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSynthesizeRoute = ApiSynthesizeRouteImport.update({
   id: '/api/synthesize',
   path: '/api/synthesize',
@@ -67,6 +93,11 @@ const ApiSynthesizeRoute = ApiSynthesizeRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHelpRoute = AppHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHistoryRoute = AppHistoryRouteImport.update({
@@ -84,6 +115,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppTopicsRoute = AppTopicsRouteImport.update({
+  id: '/topics',
+  path: '/topics',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPaperRoute = AppPaperRouteImport.update({
   id: '/paper/',
   path: '/paper/',
@@ -97,31 +133,43 @@ const AppResultsRoute = AppResultsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/methodology': typeof MethodologyRoute
   '/privacy': typeof PrivacyRoute
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
+  '/topics': typeof TopicsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/help': typeof AppHelpRoute
   '/app/history': typeof AppHistoryRoute
   '/app/library': typeof AppLibraryRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/topics': typeof AppTopicsRoute
   '/app/': typeof AppIndexRoute
   '/app/paper/': typeof AppPaperRoute
   '/app/results/': typeof AppResultsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/methodology': typeof MethodologyRoute
   '/privacy': typeof PrivacyRoute
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
+  '/topics': typeof TopicsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/help': typeof AppHelpRoute
   '/app/history': typeof AppHistoryRoute
   '/app/library': typeof AppLibraryRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/topics': typeof AppTopicsRoute
   '/app': typeof AppIndexRoute
   '/app/paper': typeof AppPaperRoute
   '/app/results': typeof AppResultsRoute
@@ -129,16 +177,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/cookies': typeof CookiesRoute
+  '/how-it-works': typeof HowItWorksRoute
+  '/methodology': typeof MethodologyRoute
   '/privacy': typeof PrivacyRoute
   '/sign-in': typeof SignInRoute
   '/terms': typeof TermsRoute
+  '/topics': typeof TopicsRoute
   '/api/synthesize': typeof ApiSynthesizeRoute
+  '/app/help': typeof AppHelpRoute
   '/app/history': typeof AppHistoryRoute
   '/app/library': typeof AppLibraryRoute
   '/app/settings': typeof AppSettingsRoute
+  '/app/topics': typeof AppTopicsRoute
   '/app/': typeof AppIndexRoute
   '/app/paper/': typeof AppPaperRoute
   '/app/results/': typeof AppResultsRoute
@@ -147,47 +201,65 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/app'
     | '/auth'
     | '/cookies'
+    | '/how-it-works'
+    | '/methodology'
     | '/privacy'
     | '/sign-in'
     | '/terms'
+    | '/topics'
     | '/api/synthesize'
+    | '/app/help'
     | '/app/history'
     | '/app/library'
     | '/app/settings'
+    | '/app/topics'
     | '/app/'
     | '/app/paper/'
     | '/app/results/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/auth'
     | '/cookies'
+    | '/how-it-works'
+    | '/methodology'
     | '/privacy'
     | '/sign-in'
     | '/terms'
+    | '/topics'
     | '/api/synthesize'
+    | '/app/help'
     | '/app/history'
     | '/app/library'
     | '/app/settings'
+    | '/app/topics'
     | '/app'
     | '/app/paper'
     | '/app/results'
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/app'
     | '/auth'
     | '/cookies'
+    | '/how-it-works'
+    | '/methodology'
     | '/privacy'
     | '/sign-in'
     | '/terms'
+    | '/topics'
     | '/api/synthesize'
+    | '/app/help'
     | '/app/history'
     | '/app/library'
     | '/app/settings'
+    | '/app/topics'
     | '/app/'
     | '/app/paper/'
     | '/app/results/'
@@ -195,12 +267,16 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
   CookiesRoute: typeof CookiesRoute
+  HowItWorksRoute: typeof HowItWorksRoute
+  MethodologyRoute: typeof MethodologyRoute
   PrivacyRoute: typeof PrivacyRoute
   SignInRoute: typeof SignInRoute
   TermsRoute: typeof TermsRoute
+  TopicsRoute: typeof TopicsRoute
   ApiSynthesizeRoute: typeof ApiSynthesizeRoute
 }
 
@@ -211,6 +287,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app': {
@@ -234,6 +317,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/methodology': {
+      id: '/methodology'
+      path: '/methodology'
+      fullPath: '/methodology'
+      preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -255,6 +352,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/topics': {
+      id: '/topics'
+      path: '/topics'
+      fullPath: '/topics'
+      preLoaderRoute: typeof TopicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/synthesize': {
       id: '/api/synthesize'
       path: '/api/synthesize'
@@ -267,6 +371,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/help': {
+      id: '/app/help'
+      path: '/help'
+      fullPath: '/app/help'
+      preLoaderRoute: typeof AppHelpRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/history': {
@@ -290,6 +401,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/topics': {
+      id: '/app/topics'
+      path: '/topics'
+      fullPath: '/app/topics'
+      preLoaderRoute: typeof AppTopicsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/paper/': {
       id: '/app/paper/'
       path: '/paper'
@@ -308,18 +426,22 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppHelpRoute: typeof AppHelpRoute
   AppHistoryRoute: typeof AppHistoryRoute
   AppLibraryRoute: typeof AppLibraryRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppTopicsRoute: typeof AppTopicsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppPaperRoute: typeof AppPaperRoute
   AppResultsRoute: typeof AppResultsRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppHelpRoute: AppHelpRoute,
   AppHistoryRoute: AppHistoryRoute,
   AppLibraryRoute: AppLibraryRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppTopicsRoute: AppTopicsRoute,
   AppIndexRoute: AppIndexRoute,
   AppPaperRoute: AppPaperRoute,
   AppResultsRoute: AppResultsRoute,
@@ -329,12 +451,16 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
   CookiesRoute: CookiesRoute,
+  HowItWorksRoute: HowItWorksRoute,
+  MethodologyRoute: MethodologyRoute,
   PrivacyRoute: PrivacyRoute,
   SignInRoute: SignInRoute,
   TermsRoute: TermsRoute,
+  TopicsRoute: TopicsRoute,
   ApiSynthesizeRoute: ApiSynthesizeRoute,
 }
 export const routeTree = rootRouteImport
