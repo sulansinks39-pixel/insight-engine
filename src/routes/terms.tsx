@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LEGAL_EMAIL } from "@/lib/site";
 import { LegalPage } from "@/components/layout/LegalPage";
 
 export const Route = createFileRoute("/terms")({
@@ -67,8 +68,7 @@ function Terms() {
 
       <h2>Contact</h2>
       <p>
-        Questions about these terms? Email <strong>legal@evidence.example</strong>. Please replace
-        this with your real contact address before going live.
+        Questions about these terms? Email <a href={`mailto:${LEGAL_EMAIL}`} className="font-medium text-primary underline-offset-4 hover:underline">{LEGAL_EMAIL}</a>.
       </p>
     </LegalPage>
   );

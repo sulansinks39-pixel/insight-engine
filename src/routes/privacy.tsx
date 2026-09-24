@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { PRIVACY_EMAIL } from "@/lib/site";
 import { LegalPage } from "@/components/layout/LegalPage";
 
 export const Route = createFileRoute("/privacy")({
@@ -68,8 +69,7 @@ function Privacy() {
 
       <h2>Contact</h2>
       <p>
-        Questions about this policy? Email <strong>privacy@evidence.example</strong>. Please replace
-        this with your real contact address before going live.
+        Questions about this policy? Email <a href={`mailto:${PRIVACY_EMAIL}`} className="font-medium text-primary underline-offset-4 hover:underline">{PRIVACY_EMAIL}</a>.
       </p>
     </LegalPage>
   );

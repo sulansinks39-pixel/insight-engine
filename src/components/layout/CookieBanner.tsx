@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Cookie } from "lucide-react";
 import { loadNonEssentialScripts, readConsent, writeConsent } from "@/lib/consent";
 
+/**
+ * Compact consent bar. Non-essential scripts stay blocked until the visitor
+ * explicitly presses Accept.
+ */
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
@@ -21,35 +24,25 @@ export function CookieBanner() {
 
   return (
     <div
-      role="dialog"
-      aria-live="polite"
+      role="region"
       aria-label="Cookie consent"
-      className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-2xl"
+      className="fixed inset-x-0 bottom-0 z-50 border-t bg-surface/95 backdrop-blur"
     >
-      <div className="paper-card animate-rise flex flex-col gap-3 p-4 shadow-lg sm:flex-row sm:items-center">
-        <Cookie className="size-5 shrink-0 text-primary" />
-        <p className="flex-1 text-sm text-foreground/85">
-          We only use cookies needed to keep you signed in. Analytics and other non-essential
-          scripts stay switched off unless you choose to allow them. See our{" "}
-          <Link to="/privacy" className="font-medium text-primary underline-offset-4 hover:underline">
-            privacy policy
-          </Link>
-          .
-        </p>
-        <div className="flex shrink-0 gap-2">
-          <button
-            type="button"
-            onClick={() => decide("denied")}
-            className="rounded-lg border px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 text-xs text-ink-secondary">
+        <p>We use essential cookies only.</p>
+        <div className="flex shrink-0 items-center gap-3">
+          <Link
+            to="/cookies"
+            className="underline-offset-4 hover:text-ink hover:underline"
           >
-            Essential only
-          </button>
+            Preferences
+          </Link>
           <button
             type="button"
             onClick={() => decide("granted")}
-            className="rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="bg-primary px-3 py-1 font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
           >
-            Allow all
+            Accept
           </button>
         </div>
       </div>
