@@ -13,7 +13,6 @@ import {
   Plus,
   Settings,
   Shield,
-  TrendingUp,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -31,22 +30,18 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
+// Saved papers and Collections are two sections of /app/library, so they link by anchor.
+// Topics and trends share one page, so they get one entry.
 const sections = [
-  { title: "History", items: [{ to: "/app/history", label: "History", icon: Clock3 }] },
+  { title: "Workspace", items: [{ to: "/app/history", hash: undefined, label: "History", icon: Clock3 }] },
   {
     title: "Library",
     items: [
-      { to: "/app/library", label: "Saved papers", icon: BookMarked },
-      { to: "/app/library", label: "Collections", icon: FolderClosed },
+      { to: "/app/library", hash: "saved", label: "Saved papers", icon: BookMarked },
+      { to: "/app/library", hash: "collections", label: "Collections", icon: FolderClosed },
     ],
   },
-  {
-    title: "Discover",
-    items: [
-      { to: "/app/topics", label: "Topics", icon: Compass },
-      { to: "/app/topics", label: "Research trends", icon: TrendingUp },
-    ],
-  },
+  { title: "Discover", items: [{ to: "/app/topics", hash: undefined, label: "Topics & trends", icon: Compass }] },
 ] as const;
 
 function Avatar({ email }: { email: string | null }) {
@@ -145,13 +140,15 @@ function AccountMenu({ variant, onNavigate }: { variant: "row" | "icon"; onNavig
 }
 
 function Sidebar({ close }: { close?: () => void }) {
-  const path = useRouterState({ select: (s) => s.location.pathname });
+  const location = useRouterState({ select: (s) => s.location });
+  const isActive = (item: { to: string; hash?: string | undefined }) =>
+    location.pathname === item.to && (!item.hash || location.hash === item.hash || (!location.hash && item.hash === "saved"));
   return (
     <div className="flex h-full flex-col bg-sidebar p-3">
-      <Button asChild className="w-full justify-start">
+      <Button asChild className="h-10 w-full justify-start">
         <Link to="/app" onClick={close}>
           <Plus />
-          New search
+          New research
         </Link>
       </Button>
       <nav className="mt-6 flex-1 space-y-5 overflow-y-auto" aria-label="Workspace">
@@ -162,8 +159,10 @@ function Sidebar({ close }: { close?: () => void }) {
               <Link
                 key={item.label}
                 to={item.to}
+                {...(item.hash ? { hash: item.hash } : {})}
                 onClick={close}
-                className={cn("sidebar-link", path === item.to && "sidebar-link-active")}
+                aria-current={isActive(item) ? "page" : undefined}
+                className={cn("sidebar-link", isActive(item) && "sidebar-link-active")}
               >
                 <item.icon />
                 {item.label}
@@ -182,7 +181,7 @@ function Sidebar({ close }: { close?: () => void }) {
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-background">
       <header className="fixed inset-x-0 top-0 z-40 flex h-15 items-center gap-3 border-b bg-background px-4 lg:px-6">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -190,7 +189,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Menu />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-72 p-0">
+          <SheetContent side="left" className="w-[264px] max-w-[85vw] p-0">
             <SheetTitle className="sr-only">Workspace navigation</SheetTitle>
             <Sidebar close={() => setOpen(false)} />
           </SheetContent>
@@ -198,14 +197,15 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Link to="/app" className="font-serif text-xl font-semibold">
           Evidence
         </Link>
-        <div className="ml-auto">
+        {/* Desktop keeps account access in the sidebar; the header copy is mobile/tablet only. */}
+        <div className="ml-auto lg:hidden">
           <AccountMenu variant="icon" />
         </div>
       </header>
-      <aside className="fixed inset-y-0 left-0 top-15 hidden w-60 border-r lg:block">
+      <aside className="fixed inset-y-0 left-0 top-15 hidden w-[248px] border-r lg:block">
         <Sidebar />
       </aside>
-      <main className="pt-15 lg:pl-60">{children}</main>
+      <main className="min-w-0 pt-15 lg:pl-[248px]">{children}</main>
     </div>
   );
 }
