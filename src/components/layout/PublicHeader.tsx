@@ -3,7 +3,7 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-const links = [{to:"/how-it-works",label:"How it works"},{to:"/topics",label:"Research"},{to:"/methodology",label:"Methodology"},{to:"/about",label:"About"}] as const;
+const links = [{to:"/about",label:"About"}] as const;
 export function PublicHeader() {
   const [open,setOpen]=useState(false);
   return <header className="border-b bg-background/95"><div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">

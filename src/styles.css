@@ -383,3 +383,31 @@
     vertical-align: top;
   }
 }
+
+@utility sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  color: var(--color-ink-secondary);
+  & svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-ink-muted);
+  }
+  &:hover {
+    background-color: var(--color-sidebar-accent);
+    color: var(--color-ink);
+  }
+}
+
+@utility sidebar-link-active {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 500;
+  & svg {
+    color: var(--color-accent-brand);
+  }
+}
